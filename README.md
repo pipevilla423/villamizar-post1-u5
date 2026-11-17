@@ -141,3 +141,17 @@ Estos resultados no permiten establecer una ventaja significativa de rendimiento
 Es importante considerar que las mediciones pueden estar influenciadas por la caché del sistema operativo y el almacenamiento físico del anfitrión. Además, el tiempo utilizado por `sync` no quedó incluido en los valores registrados.
 
 La principal diferencia entre los discos se encuentra en la administración del espacio de almacenamiento: el disco fijo reserva su capacidad desde la creación, mientras que el dinámico aumenta su tamaño físico conforme se almacenan datos.
+
+## Parte 2 — Paso 7: Decisión técnica — Selección del modo de red y sus implicaciones de seguridad
+
+Para el desarrollo del laboratorio se determinó que **NAT es el modo de red más apropiado** para la máquina virtual Lab5-Alpine, debido a que permite acceder a Internet sin exponer directamente el sistema operativo huésped a los demás dispositivos de la red local.
+
+En este modo, VirtualBox administra una red privada en la que la máquina virtual puede iniciar conexiones hacia Internet, descargar paquetes y realizar actualizaciones. Sin embargo, los dispositivos externos no pueden iniciar conexiones directamente hacia la VM mediante su dirección privada, salvo que se configuren mecanismos como el reenvío de puertos. Esto proporciona una capa de aislamiento apropiada para un entorno de aprendizaje.
+
+Por otra parte, **Host-Only** resulta conveniente para prácticas de Arquitectura de Computadores y redes donde se requiere estudiar la comunicación entre el anfitrión y la máquina virtual sin permitir conexiones directas a Internet. Este modo permite experimentar con direcciones IP, protocolos y servicios de red en un entorno más controlado. Su principal limitación es la pérdida de conectividad externa, lo que impide descargar paquetes o actualizar el sistema sin configurar conexiones adicionales.
+
+Finalmente, **Bridge presenta mayores riesgos de exposición** para este escenario, debido a que la máquina virtual obtiene una dirección IP de la misma red local que el equipo anfitrión. Esto permite que otros dispositivos de dicha red puedan intentar establecer conexiones con los servicios activos de Alpine Linux, como OpenSSH, aumentando las posibilidades de acceso no autorizado si existen configuraciones inseguras o vulnerabilidades.
+
+Durante las pruebas se verificó que NAT asignó la dirección `10.0.2.15`, Host-Only asignó `192.168.56.101` y Bridge asignó `192.168.1.112`.
+
+En conclusión, se seleccionó **NAT como configuración predeterminada del laboratorio**, porque ofrece un equilibrio adecuado entre conectividad, aislamiento y seguridad, sin necesidad de que otros dispositivos de la red local accedan directamente a la máquina virtual.
