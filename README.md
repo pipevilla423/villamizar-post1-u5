@@ -171,3 +171,33 @@ Respecto a la asignación de recursos, se determinó que **2 CPUs virtuales y 20
 En equipos con 4 a 8 núcleos o procesadores lógicos disponibles y entre 8 y 16 GB de RAM, esta asignación permite mantener recursos para Windows y otras aplicaciones. Por el contrario, asignar todos los procesadores o la mayor parte de la memoria RAM a una sola máquina virtual puede provocar saturación, intercambio de memoria con el disco y disminución del rendimiento general.
 
 En conclusión, se recomienda utilizar **discos dinámicos y una asignación moderada de CPU y RAM**, priorizando el aprovechamiento eficiente de los recursos, la estabilidad del sistema anfitrión y las necesidades reales del laboratorio.
+
+## Parte 2 — Paso 9: Exportación OVA y consolidación del repositorio
+
+Se realizó el procedimiento de exportación de la máquina virtual Lab5-Alpine utilizando la herramienta VBoxManage de Oracle VirtualBox.
+
+La exportación se configuró en formato OVA, basado en el estándar Open Virtualization Format (OVF), que permite distribuir máquinas virtuales con sus archivos de configuración y discos virtuales.
+
+El archivo de exportación se denominó `Lab5-Alpine-export.ova` y se almacenó fuera del repositorio GitHub debido a su tamaño.
+
+El proceso de exportación se verificó mediante la existencia y el tamaño del archivo generado. La evidencia correspondiente se almacenó en la carpeta `capturas/`.
+
+Adicionalmente, se creó el archivo `VBoxManage_commands.sh`, que documenta los comandos utilizados durante las actividades de configuración de red, snapshots, asignación de recursos, creación de discos virtuales y exportación.
+
+## Conclusiones generales del laboratorio
+
+El desarrollo del laboratorio permitió comprobar las diferencias fundamentales entre la emulación y la virtualización mediante DOSBox y Oracle VirtualBox.
+
+En la primera parte, DOSBox permitió ejecutar programas ensambladores x86 de 16 bits mediante un entorno DOS emulado. Las mediciones demostraron que el parámetro `cycles` influye directamente en la velocidad de ejecución. Con 1000 cycles se registraron 262,38 segundos, con 8000 cycles se registraron 32,74 segundos y con 20000 cycles se registraron 13,07 segundos. Esto permitió justificar el uso de una velocidad fija para mantener condiciones comparables.
+
+En la segunda parte, VirtualBox permitió instalar y administrar un sistema operativo Alpine Linux completo mediante recursos virtualizados. Se comprobaron las diferencias entre los modos de red NAT, Host-Only y Bridge, identificando NAT como la opción más apropiada para un laboratorio personal por su equilibrio entre conectividad y aislamiento.
+
+La creación y restauración de snapshots demostró la utilidad de conservar estados anteriores de una máquina virtual para recuperar configuraciones sin reinstalar el sistema operativo.
+
+También se verificó que la asignación de 2 CPUs virtuales y 2048 MB de memoria RAM resultó suficiente para las tareas realizadas con Alpine Linux.
+
+Respecto al almacenamiento, los discos fijo y dinámico presentaron tiempos de escritura prácticamente idénticos de 0,08 segundos. Por sus ventajas en el aprovechamiento del espacio disponible, se consideró más conveniente el disco dinámico para este entorno académico.
+
+Finalmente, la exportación OVA y el uso de GitHub permitieron documentar los procedimientos y facilitar la distribución del entorno y la revisión de las evidencias.
+
+En conclusión, el laboratorio demostró que la emulación es útil para reproducir arquitecturas y entornos de software históricos, mientras que la virtualización facilita la ejecución, administración y recuperación de sistemas operativos completos. Ambas tecnologías constituyen herramientas importantes para comprender el funcionamiento de los sistemas computacionales.

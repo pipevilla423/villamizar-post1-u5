@@ -1,0 +1,14 @@
+
+# Maquinas virtuales y discos
+*.ova
+*.ovf
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.sav
+
+# Archivos temporales
+*.log
+*.tmp
+*.sh text eol=lf
