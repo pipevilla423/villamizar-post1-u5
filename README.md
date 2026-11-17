@@ -155,3 +155,19 @@ Finalmente, **Bridge presenta mayores riesgos de exposición** para este escenar
 Durante las pruebas se verificó que NAT asignó la dirección `10.0.2.15`, Host-Only asignó `192.168.56.101` y Bridge asignó `192.168.1.112`.
 
 En conclusión, se seleccionó **NAT como configuración predeterminada del laboratorio**, porque ofrece un equilibrio adecuado entre conectividad, aislamiento y seguridad, sin necesidad de que otros dispositivos de la red local accedan directamente a la máquina virtual.
+
+## Parte 2 — Paso 8: Decisión técnica — Disco fijo frente a dinámico y asignación de CPU/RAM
+
+Durante el desarrollo del laboratorio se comparó el rendimiento de escritura secuencial entre un disco virtual de asignación fija y uno de asignación dinámica, utilizando Oracle VirtualBox y el comando `time dd` de Alpine Linux.
+
+Los resultados mostraron que ambos discos registraron un tiempo real de **0,08 segundos** para escribir 200 MiB. Sin embargo, al analizar los valores más precisos reportados por `dd`, el disco dinámico obtuvo 0,078700 segundos, mientras que el disco fijo registró 0,078918 segundos. Por lo tanto, el disco dinámico resultó ligeramente más rápido en esta medición, aunque la diferencia de 0,000218 segundos es demasiado pequeña para establecer una ventaja significativa.
+
+Desde el punto de vista técnico, un disco fijo reserva todo su espacio de almacenamiento desde su creación, evitando el trabajo adicional de ampliar el archivo `.vdi` durante las escrituras. En cambio, un disco dinámico aumenta progresivamente su tamaño en el sistema anfitrión, lo que puede generar operaciones adicionales de asignación de espacio y afectar el rendimiento en determinadas circunstancias.
+
+A pesar de esta diferencia, **se considera más apropiado utilizar discos dinámicos en laboratorios académicos**, debido a que ocupan únicamente el espacio necesario para almacenar los datos utilizados. Esto permite administrar eficientemente el almacenamiento disponible, especialmente cuando varios estudiantes trabajan con máquinas virtuales en computadores de capacidad limitada.
+
+Respecto a la asignación de recursos, se determinó que **2 CPUs virtuales y 2048 MB de RAM** representan una configuración adecuada para Alpine Linux, ya que proporcionan recursos suficientes para ejecutar herramientas básicas sin consumir excesivamente la capacidad del anfitrión.
+
+En equipos con 4 a 8 núcleos o procesadores lógicos disponibles y entre 8 y 16 GB de RAM, esta asignación permite mantener recursos para Windows y otras aplicaciones. Por el contrario, asignar todos los procesadores o la mayor parte de la memoria RAM a una sola máquina virtual puede provocar saturación, intercambio de memoria con el disco y disminución del rendimiento general.
+
+En conclusión, se recomienda utilizar **discos dinámicos y una asignación moderada de CPU y RAM**, priorizando el aprovechamiento eficiente de los recursos, la estabilidad del sistema anfitrión y las necesidades reales del laboratorio.
